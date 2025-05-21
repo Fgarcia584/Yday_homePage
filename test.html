@@ -115,11 +115,11 @@
                     </div>
                     <div class="mt-8 flex flex-wrap gap-6">
                         <div class="flex items-center">
-                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mr-2">250+</div>
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mr-2">3+</div>
                             <div class="text-gray-600 dark:text-gray-300">Jeux disponibles</div>
                         </div>
                         <div class="flex items-center">
-                            <div class="text-2xl font-bold text-secondary-600 dark:text-secondary-400 mr-2">50K+</div>
+                            <div class="text-2xl font-bold text-secondary-600 dark:text-secondary-400 mr-2">4+</div>
                             <div class="text-gray-600 dark:text-gray-300">Joueurs actifs</div>
                         </div>
                     </div>
@@ -264,6 +264,7 @@
                 category: ["strategy", "cards"],
                 players: "3-10",
                 image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                url:"https://skullking.kaly-games.fr/",
                 featured: true
             },
             {
@@ -272,6 +273,7 @@
                 category: ["strategy", "cards"],
                 players: "2-10",
                 image: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                url:"https://6quiprend.kaly-games.fr/",
                 featured: true
             },
             {
@@ -280,6 +282,7 @@
                 category: ["classic","versus"],
                 players: "2",
                 image: "https://images.unsplash.com/photo-1611765083444-a3ce30f1c885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1144&q=80",
+                url:"https://battleship.kaly-games.fr/",
                 featured: true
             },
             {
@@ -288,34 +291,10 @@
                 category: ["strategy", "cards"],
                 players: "3-10",
                 image: "https://images.unsplash.com/photo-1605266458457-c96d0f2a1580?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                url:"https://saboteur.kaly-games.fr/",
                 featured: true
             }
         ];
-
-        // Display featured games
-        function displayFeaturedGames() {
-            const featuredContainer = document.querySelector('#home + section .grid');
-            const featuredGames = games.filter(game => game.featured);
-            
-            featuredContainer.innerHTML = featuredGames.map(game => `
-                <div class="game-card bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                            <h3 class="text-white font-semibold text-lg">${game.title}</h3>
-                        </div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm text-gray-600 dark:text-gray-300">${game.players} joueurs</span>                        </div>
-
-                        <button class="mt-4 w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all" onclick="navigate(event, 'games')">
-                            Détails
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
 
         // Display all games with filtering
         let displayedGames = 6;
@@ -343,7 +322,7 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <div class="flex justify-between items-center mb-2">
+                        <div class="flex justify-between items-center mb-4">
                             <span class="text-sm text-gray-600 dark:text-gray-300">${game.players} joueurs</span>
                         
                         </div>
@@ -351,11 +330,10 @@
                             <div class="flex text-yellow-400 mr-2">
                                
                             </div>
-                            <span class="text-sm text-gray-600 dark:text-gray-300">${game.rating}</span>
                         </div>
-                        <button class="mt-4 w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all" onclick="showGamePreview(${game.id})">
-                            Aperçu
-                        </button>
+                        <a href="${game.url}" class="mt-4 w-full py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all">
+                            Jouer
+                        </a>
                     </div>
                 </div>
             `).join('');
