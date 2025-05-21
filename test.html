@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlateauVirtuel - Jeux de société en ligne</title>
+    <base target="_self">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@preline/preline@2.0.0/dist/preline.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        secondary: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-orange-50 dark:bg-orange-950 text-gray-800 dark:text-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 flex items-center" onclick="navigate(event, 'home')">
+                        <i class="fas fa-dice-d20 text-2xl text-primary-600 dark:text-primary-400 mr-2"></i>
+                        <span class="text-xl font-bold text-gray-900 dark:text-white">Kaly games</span>
+                    </a>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
+                    <a href="#" class="px-3 py-2 text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-all" onclick="navigate(event, 'home')">Accueil</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-all" onclick="navigate(event, 'features')">Fonctionnalités</a>
+                    <a href="#" class="px-3 py-2 text-sm font-medium hover:text-primary-600 dark:hover:text-primary-400 transition-all" onclick="navigate(event, 'games')">Jeux</a>
+                </div>
+                <div class="flex items-center">
+                    <button id="theme-toggle" type="button" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    <button class="md:hidden ml-4 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#" class="block px-3 py-2 text-base font-medium hover:text-primary-600 dark:hover:text-primary-400" onclick="navigate(event, 'home')">Accueil</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium hover:text-primary-600 dark:hover:text-primary-400" onclick="navigate(event, 'features')">Fonctionnalités</a>
+                <a href="#" class="block px-3 py-2 text-base font-medium hover:text-primary-600 dark:hover:text-primary-400" onclick="navigate(event, 'games')">Jeux</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        Jouez ensemble, <span class="text-primary-600 dark:text-primary-400">où que vous soyez</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
+                        Découvrez des centaines de jeux de société dans un environnement virtuel convivial. Reconnectez-vous avec vos proches autour de parties mémorables, sans contraintes géographiques.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#" class="px-6 py-3 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium rounded-lg text-center transition-all" onclick="navigate(event, 'games')">
+                            Voir les jeux
+                        </a>
+                    </div>
+                    <div class="mt-8 flex flex-wrap gap-6">
+                        <div class="flex items-center">
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mr-2">250+</div>
+                            <div class="text-gray-600 dark:text-gray-300">Jeux disponibles</div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-2xl font-bold text-secondary-600 dark:text-secondary-400 mr-2">50K+</div>
+                            <div class="text-gray-600 dark:text-gray-300">Joueurs actifs</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="relative z-10 floating">
+                        <img src="https://images.unsplash.com/photo-1608889825205-eebdb9fc5806?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1180&q=80" 
+                             alt="Personnes jouant à des jeux de société en ligne" 
+                             class="rounded-xl shadow-xl w-full h-auto">
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary-400 rounded-full opacity-20 dark:opacity-30"></div>
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-primary-400 rounded-full opacity-20 dark:opacity-30"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Catalog Section -->
+        <section id="games" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Notre catalogue de jeux</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Trouvez le jeu parfait pour votre prochaine soirée entre amis ou en famille.
+                </p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="mb-8 flex flex-wrap gap-4 justify-center">
+                <button class="px-4 py-2 bg-primary-600 text-white rounded-lg" onclick="filterGames('all')">Tous</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg transition-all" onclick="filterGames('strategy')">Stratégie</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg transition-all" onclick="filterGames('versus')">Versus</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg transition-all" onclick="filterGames('cards')">Cartes</button>
+                <button class="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg transition-all" onclick="filterGames('classic')">Classiques</button>
+            </div>
+            
+            <!-- Games Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Games will be loaded here from JavaScript -->
+            </div>
+            
+            <div class="mt-12 text-center">
+                <button class="px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-all" onclick="loadMoreGames()">
+                    Charger plus de jeux
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-gray-100 dark:bg-gray-800 rounded-2xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Pourquoi choisir PlateauVirtuel ?</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    Une expérience de jeu complète, conçue pour les amateurs de jeux de société.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-users text-primary-600 dark:text-primary-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Jouez avec vos proches</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Invitez vos amis et famille à rejoindre vos parties, même à distance. Chat vocal et vidéo intégrés.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-secondary-100 dark:bg-secondary-900 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-gamepad text-secondary-600 dark:text-secondary-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Bibliothèque variée</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Plus de 250 jeux disponibles, des classiques aux nouveautés. Découvrez de nouveaux jeux chaque mois.
+                    </p>
+                </div>
+                <div class="bg-white dark:bg-gray-700 p-6 rounded-xl shadow-sm hover:shadow-md transition-all">
+                    <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-trophy text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Compétitions amicales</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Participez à des tournois et défiez d'autres joueurs. Suivez vos statistiques et progressez.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- CTA Section -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+           
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 pt-16 pb-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>© 2025 Kaly games. Tous droits réservés.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="text-gray-400 hover:text-white transition-all mr-4">Français</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation function
+        function navigate(event, sectionId) {
+            event.preventDefault();
+            if (sectionId === 'register') {
+                alert("Fonctionnalité d'inscription - Page simulée");
+                return;
+            }
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Game data
+        const games = [
+            {
+                id: 1,
+                title: "Skullking",
+                category: ["strategy", "cards"],
+                players: "3-10",
+                image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                featured: true
+            },
+            {
+                id: 2,
+                title: "6 qui prend",
+                category: ["strategy", "cards"],
+                players: "2-10",
+                image: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                featured: true
+            },
+            {
+                id: 3,
+                title: "Bataille navale",
+                category: ["classic","versus"],
+                players: "2",
+                image: "https://images.unsplash.com/photo-1611765083444-a3ce30f1c885?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1144&q=80",
+                featured: true
+            },
+            {
+                id: 4,
+                title: "Saboteur",
+                category: ["strategy", "cards"],
+                players: "3-10",
+                image: "https://images.unsplash.com/photo-1605266458457-c96d0f2a1580?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                featured: true
+            }
+        ];
+
+        // Display featured games
+        function displayFeaturedGames() {
+            const featuredContainer = document.querySelector('#home + section .grid');
+            const featuredGames = games.filter(game => game.featured);
+            
+            featuredContainer.innerHTML = featuredGames.map(game => `
+                <div class="game-card bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <h3 class="text-white font-semibold text-lg">${game.title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600 dark:text-gray-300">${game.players} joueurs</span>                        </div>
+
+                        <button class="mt-4 w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all" onclick="navigate(event, 'games')">
+                            Détails
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display all games with filtering
+        let displayedGames = 6;
+        function displayGames(filter = 'all') {
+            const gamesContainer = document.querySelector('#games .grid');
+            let filteredGames = games;
+            
+            if (filter !== 'all') {
+                filteredGames = games.filter(game => game.category.includes(filter));
+            }
+            
+            const gamesToShow = filteredGames.slice(0, displayedGames);
+            
+            gamesContainer.innerHTML = gamesToShow.map(game => `
+                <div class="game-card bg-white dark:bg-gray-700 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover">
+                        <div class="absolute top-2 right-2 bg-primary-600 text-white text-xs px-2 py-1 rounded">
+                            ${game.category === 'strategy' ? 'Stratégie' : 
+                              game.category === 'versus' ? 'Versus' : 
+                              game.category === 'cards' ? 'Cartes' : 'Classique'}
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                            <h3 class="text-white font-semibold text-lg">${game.title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-sm text-gray-600 dark:text-gray-300">${game.players} joueurs</span>
+                        
+                        </div>
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                               
+                            </div>
+                            <span class="text-sm text-gray-600 dark:text-gray-300">${game.rating}</span>
+                        </div>
+                        <button class="mt-4 w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all" onclick="showGamePreview(${game.id})">
+                            Aperçu
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Hide or show load more button
+            const loadMoreBtn = document.querySelector('#games button');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = filteredGames.length > displayedGames ? 'inline-block' : 'none';
+            }
+        }
+
+        // Filter games
+        function filterGames(category) {
+            displayedGames = 6;
+            displayGames(category);
+            
+            // Update active filter button
+            const buttons = document.querySelectorAll('#games button');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(category) || (category === 'all' && btn.textContent === 'Tous')) {
+                    btn.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                    btn.classList.add('bg-primary-600', 'text-white');
+                } else {
+                    btn.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                    btn.classList.remove('bg-primary-600', 'text-white');
+                }
+            });
+        }
+
+        // Load more games
+        function loadMoreGames() {
+            displayedGames += 3;
+            const activeFilter = document.querySelector('#games button.bg-primary-600').textContent.toLowerCase();
+            filterGames(activeFilter === 'tous' ? 'all' : activeFilter);
+        }
+
+        // Show game preview (simulated)
+        function showGamePreview(gameId) {
+            const game = games.find(g => g.id === gameId);
+            alert(`Aperçu du jeu: ${game.title}\n\nCette fonctionnalité montrerait un aperçu du gameplay en action.`);
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayFeaturedGames();
+            displayGames();
+        });
+    </script>
+</body>
+</html>
