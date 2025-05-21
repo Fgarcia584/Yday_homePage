@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlateauVirtuel - Jeux de société en ligne</title>
+    <title>kaly games - Jeux de société en ligne</title>
     <base target="_self">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@preline/preline@2.0.0/dist/preline.min.js"></script>
@@ -111,6 +111,16 @@
                             Voir les jeux
                         </a>
                     </div>
+                    <div class="mt-8 flex flex-wrap gap-6">
+                        <div class="flex items-center">
+                            <div class="text-2xl font-bold text-primary-600 dark:text-primary-400 mr-2">250+</div>
+                            <div class="text-gray-600 dark:text-gray-300">Jeux disponibles</div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="text-2xl font-bold text-secondary-600 dark:text-secondary-400 mr-2">50K+</div>
+                            <div class="text-gray-600 dark:text-gray-300">Joueurs actifs</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="relative">
                     <div class="relative z-10 floating">
@@ -201,6 +211,7 @@
                 category: ["strategy", "cards"],
                 players: "3-10",
                 image: "https://cdn.discordapp.com/attachments/888154458528301097/1374704744869662760/image.png?ex=682f050f&is=682db38f&hm=63feeae5e2944769e25858ce7d0257ace939b17fe6dc1f8e3f3f425a0b2d6198&",
+                url:"https://skullking.kaly-games.fr/",
                 featured: true
             },
             {
@@ -209,6 +220,7 @@
                 category: ["strategy", "cards"],
                 players: "2-10",
                 image: "https://cdn.discordapp.com/attachments/888154458528301097/1374704361623650405/image.png?ex=682f04b4&is=682db334&hm=14d8f85a0314fcf43be197d29c50de51a072ec8b64c78f4a4e020ad13d69771a&",
+                url:"https://6quiprend.kaly-games.fr/",
                 featured: true
             },
             {
@@ -217,6 +229,7 @@
                 category: ["classic","versus"],
                 players: "2",
                 image: "https://francoischarron.com/images/chroniques/BattleShip-Bataille-Navale-en-ligne-gratuit.jpg",
+                url:"https://battleship.kaly-games.fr/",
                 featured: true
             },
             {
@@ -225,6 +238,7 @@
                 category: ["strategy", "cards"],
                 players: "3-10",
                 image: "https://preview.redd.it/saboteur-not-your-typical-solo-game-but-so-much-fun-with-v0-gdb7vcznxhg81.jpg?width=640&crop=smart&auto=webp&s=ef938de72760422251914ff2b41a90a1ed8910d9",
+                url:"https://saboteur.kaly-games.fr/",
                 featured: true
             }
         ];
@@ -271,9 +285,9 @@
                     <div class="relative overflow-hidden h-48">
                         <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover">
                         <div class="absolute top-2 right-2 bg-primary-600 text-white text-xs px-2 py-1 rounded">
-                            ${game.category === 'strategy' ? 'Stratégie' : 
-                              game.category === 'versus' ? 'Versus' : 
-                              game.category === 'cards' ? 'Cartes' : 'Classique'}
+                            ${game.category.includes('strategy') ? 'Stratégie' : 
+                              game.category.includes('versus') ? 'Versus' : 
+                              game.category.includes('cards') ? 'Cartes' : 'Classique'}
                         </div>
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                             <h3 class="text-white font-semibold text-lg">${game.title}</h3>
@@ -283,9 +297,9 @@
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-sm text-black dark:text-white">${game.players} joueurs</span>
                         </div>
-                        <button class="mt-4 w-full py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all" onclick="showGamePreview(${game.id})">
-                            Aperçu
-                        </button>
+                        <a href="${game.url}" class="mt-4 w-full py-2 px-4 bg-primary-600 hover:bg-primary-700 text-white rounded-lg text-sm transition-all">
+                            Jouer
+                        </a>
                     </div>
                 </div>
             `).join('');
@@ -330,7 +344,6 @@
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            displayFeaturedGames();
             displayGames();
         });
     </script>
