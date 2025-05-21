@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlateauVirtuel - Jeux de société en ligne</title>
+    <title>kaly games - Jeux de société en ligne</title>
     <base target="_self">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@preline/preline@2.0.0/dist/preline.min.js"></script>
@@ -313,9 +313,9 @@
                     <div class="relative overflow-hidden h-48">
                         <img src="${game.image}" alt="${game.title}" class="w-full h-full object-cover">
                         <div class="absolute top-2 right-2 bg-primary-600 text-white text-xs px-2 py-1 rounded">
-                            ${game.category === 'strategy' ? 'Stratégie' : 
-                              game.category === 'versus' ? 'Versus' : 
-                              game.category === 'cards' ? 'Cartes' : 'Classique'}
+                            ${game.category.includes('strategy') ? 'Stratégie' : 
+                              game.category.includes('versus') ? 'Versus' : 
+                              game.category.includes('cards') ? 'Cartes' : 'Classique'}
                         </div>
                         <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
                             <h3 class="text-white font-semibold text-lg">${game.title}</h3>
@@ -378,7 +378,6 @@
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
-            displayFeaturedGames();
             displayGames();
         });
     </script>
